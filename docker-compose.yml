@@ -1,0 +1,46 @@
+services:
+  25rp20411-php:
+    build: .
+    ports:
+      - "8090:80"    
+    depends_on:
+      - 25rp20411-db
+    volumes:
+      - ./src:/var/www/html
+    environment:
+      - APACHE_RUN_USER=www-data
+      - APACHE_RUN_GROUP=www-data
+    networks:
+      - app-network
+
+  25rp20411-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: 25rp20411
+    ports:
+      - "3307:3306"  
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  25rp20411-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: 25rp20411-db
+      PMA_PORT: 3307
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - "8090:80"
+    depends_on:
+      - 25rp20411-db
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
