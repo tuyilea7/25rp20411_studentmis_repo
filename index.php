@@ -17,7 +17,7 @@
         <h1>Welcome to Students MIS</h1>
         <div class="links">
             <a href="registration.php">Register</a>
-            <a href="login.php">Login</a>
+            
         </div>
     </div>
 </body>
